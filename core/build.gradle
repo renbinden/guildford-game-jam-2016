@@ -1,0 +1,5 @@
+apply plugin: "kotlin"
+
+eclipse.project {
+    name = appName + "-core"
+}
