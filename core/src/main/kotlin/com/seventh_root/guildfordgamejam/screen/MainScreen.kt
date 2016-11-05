@@ -66,7 +66,7 @@ class MainScreen: ScreenAdapter() {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT)
         engine.update(delta)
         val playerEntity = engine.getEntitiesFor(playerFamily).first()
-        camera.position.set(Vector3(position.get(playerEntity).x, position.get(playerEntity).y, 0.toFloat()))
+        camera.position.set(Vector3((camera.position.x * (15F/16F)) + (position.get(playerEntity).x * (1F/16F)), (camera.position.y * (15F/16F)) + (position.get(playerEntity).y * (1F/16F)), 0.toFloat()))
         camera.update()
         shapeRenderer.projectionMatrix = camera.combined
         shapeRenderer.color = color.get(playerEntity).color
