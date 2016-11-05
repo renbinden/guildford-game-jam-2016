@@ -10,3 +10,5 @@ val gravity: ComponentMapper<GravityComponent> = ComponentMapper.getFor(GravityC
 //val grapple: ComponentMapper<GrappleComponent> = ComponentMapper.getFor(GrappleComponent::class.java)
 val color: ComponentMapper<ColorComponent> = ComponentMapper.getFor(ColorComponent::class.java)
 val radius: ComponentMapper<RadiusComponent> = ComponentMapper.getFor(RadiusComponent::class.java)
+val texture: ComponentMapper<TextureComponent> = ComponentMapper.getFor(TextureComponent::class.java)
+val level: ComponentMapper<LevelComponent> = ComponentMapper.getFor(LevelComponent::class.java)

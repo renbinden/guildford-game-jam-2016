@@ -9,6 +9,7 @@ import com.seventh_root.guildfordgamejam.component.*
 fun loadLevel(file: FileHandle): Level {
     val jsonReader = JsonReader()
     val jsonLevel = jsonReader.parse(file)
+    val name = jsonLevel.get("name").asString()
     val entities = mutableListOf<Entity>()
     jsonLevel.get("entities").forEach { jsonEntity ->
         when (jsonEntity.get("type").asString()) {
@@ -29,7 +30,7 @@ fun loadLevel(file: FileHandle): Level {
             }
         }
     }
-    return Level(entities)
+    return Level(name, entities)
 }
 
 fun createGrapple(x: Float, y: Float, color: Color): Entity {

@@ -1,18 +1,18 @@
 package com.seventh_root.guildfordgamejam
 
 import com.badlogic.gdx.Game
-import com.badlogic.gdx.Gdx
-import com.seventh_root.guildfordgamejam.level.loadLevel
 import com.seventh_root.guildfordgamejam.screen.MainScreen
+import com.seventh_root.guildfordgamejam.screen.MenuScreen
 
 class GuildfordGameJam: Game() {
 
     lateinit var mainScreen: MainScreen
+    lateinit var menuScreen: MenuScreen
 
     override fun create() {
+        menuScreen = MenuScreen(this)
         mainScreen = MainScreen()
-        mainScreen.displayLevel(loadLevel(Gdx.files.internal("level1.json")))
-        setScreen(mainScreen)
+        setScreen(menuScreen)
     }
 
     override fun dispose() {
