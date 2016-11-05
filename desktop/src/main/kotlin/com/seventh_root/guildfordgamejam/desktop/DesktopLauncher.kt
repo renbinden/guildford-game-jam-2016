@@ -3,11 +3,13 @@ package com.seventh_root.guildfordgamejam.desktop
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration
 import com.seventh_root.guildfordgamejam.GuildfordGameJam
+import java.awt.GraphicsEnvironment
 
 fun main(arg: Array<String>) {
     val config = LwjglApplicationConfiguration()
-    config.width = 1280
-    config.height = 720
-    config.fullscreen = false
+    val graphicsDevice = GraphicsEnvironment.getLocalGraphicsEnvironment().defaultScreenDevice
+    config.width = graphicsDevice.displayMode.width
+    config.height = graphicsDevice.displayMode.height
+    config.fullscreen = true
     LwjglApplication(GuildfordGameJam(), config)
 }
