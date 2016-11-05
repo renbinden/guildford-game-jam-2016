@@ -6,7 +6,8 @@ import com.seventh_root.guildfordgamejam.GuildfordGameJam
 
 fun main(arg: Array<String>) {
     val config = LwjglApplicationConfiguration()
-    config.width = 800
-    config.height = 600
+    config.width = 1280
+    config.height = 720
+    config.fullscreen = false
     LwjglApplication(GuildfordGameJam(), config)
 }
