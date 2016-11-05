@@ -37,18 +37,20 @@ class MainScreen: ScreenAdapter() {
         Gdx.input.inputProcessor = object: InputAdapter() {
             override fun touchDown(screenX: Int, screenY: Int, pointer: Int, button: Int): Boolean {
                 engine.getEntitiesFor(playerFamily).forEach { player ->
-                    val startX = position.get(player).x
-                    val startY = position.get(player).y
-                    val endX = Gdx.input.x.toFloat() + camera.position.x - (Gdx.graphics.width / 2)
-                    val endY = Gdx.input.y.toFloat() + camera.position.y - (Gdx.graphics.height / 2)
-                    val h2 = 10F
-                    val o1 = endY - startY
-                    val a1 = endX - startX
-                    val theta = Math.atan((o1 / a1).toDouble()) + if (endX < startX) Math.PI else 0.0
-                    val a2 = Math.cos(theta) * h2
-                    val o2 = Math.sin(theta) * h2
-                    velocity.get(player).x = a2.toFloat()
-                    velocity.get(player).y = o2.toFloat()
+                    if (velocity.get(player).x == 0F && velocity.get(player).y == 0F) {
+                        val startX = position.get(player).x
+                        val startY = position.get(player).y
+                        val endX = Gdx.input.x.toFloat() + camera.position.x - (Gdx.graphics.width / 2)
+                        val endY = Gdx.input.y.toFloat() + camera.position.y - (Gdx.graphics.height / 2)
+                        val h2 = 8F
+                        val o1 = endY - startY
+                        val a1 = endX - startX
+                        val theta = Math.atan((o1 / a1).toDouble()) + if (endX < startX) Math.PI else 0.0
+                        val a2 = Math.cos(theta) * h2
+                        val o2 = Math.sin(theta) * h2
+                        velocity.get(player).x = a2.toFloat()
+                        velocity.get(player).y = o2.toFloat()
+                    }
                 }
                 return true
             }

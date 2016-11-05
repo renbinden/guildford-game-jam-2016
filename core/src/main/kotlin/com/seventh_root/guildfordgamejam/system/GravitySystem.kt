@@ -26,6 +26,8 @@ class GravitySystem: IteratingSystem(Family.all(VelocityComponent::class.java, G
         } else {
             velocity.get(entity).x = 0F
             velocity.get(entity).y = 0F
+            position.get(entity).x = gravity.get(entity).targetX
+            position.get(entity).y = gravity.get(entity).targetY
         }
     }
 
