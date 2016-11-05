@@ -24,7 +24,7 @@ class PlayerSizeSystem: IteratingSystem(Family.all(PlayerComponent::class.java, 
             }
         }
         if (shortestDistSq != null) {
-            radius.get(entity).radius = Math.abs(32F - Math.sqrt(shortestDistSq.toDouble()).toFloat())
+            radius.get(entity).radius = Math.abs(8F - Math.sqrt(shortestDistSq.toDouble()).toFloat())
         }
     }
 }
