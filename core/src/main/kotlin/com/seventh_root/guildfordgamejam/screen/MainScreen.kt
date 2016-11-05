@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.ScreenAdapter
-import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
@@ -31,6 +30,7 @@ class MainScreen: ScreenAdapter() {
         engine.addSystem(GravitySystem())
         engine.addSystem(PullSystem())
         engine.addSystem(PlayerSizeSystem())
+        engine.addSystem(PlayerColorSystem())
     }
 
     override fun show() {
@@ -41,7 +41,7 @@ class MainScreen: ScreenAdapter() {
                     val startY = position.get(player).y
                     val endX = Gdx.input.x.toFloat() + camera.position.x - (Gdx.graphics.width / 2)
                     val endY = Gdx.input.y.toFloat() + camera.position.y - (Gdx.graphics.height / 2)
-                    val h2 = 8F
+                    val h2 = 10F
                     val o1 = endY - startY
                     val a1 = endX - startX
                     val theta = Math.atan((o1 / a1).toDouble()) + if (endX < startX) Math.PI else 0.0
@@ -66,14 +66,12 @@ class MainScreen: ScreenAdapter() {
         val playerEntity = engine.getEntitiesFor(playerFamily).first()
         camera.position.set(Vector3(position.get(playerEntity).x, position.get(playerEntity).y, 0.toFloat()))
         camera.update()
-        shapeRenderer.begin(Line)
         shapeRenderer.projectionMatrix = camera.combined
-        shapeRenderer.color = Color.WHITE
-        shapeRenderer.circle(position.get(playerEntity).x, position.get(playerEntity).y, player.get(playerEntity).radius)
+        shapeRenderer.color = color.get(playerEntity).color
+        shapeRenderer.begin(Line)
+        shapeRenderer.circle(position.get(playerEntity).x, position.get(playerEntity).y, radius.get(playerEntity).radius)
         shapeRenderer.end()
         shapeRenderer.begin(Line)
-        shapeRenderer.projectionMatrix = camera.combined
-        shapeRenderer.color = Color.WHITE
         val startX = position.get(playerEntity).x
         val startY = position.get(playerEntity).y
         val endX = Gdx.input.x.toFloat() + camera.position.x - (Gdx.graphics.width / 2)
@@ -88,10 +86,10 @@ class MainScreen: ScreenAdapter() {
         val y2 = startY + o2
         shapeRenderer.line(startX, startY, x2.toFloat(), y2.toFloat())
         shapeRenderer.end()
-        engine.getEntitiesFor(grappleFamily).forEach { grapple ->
-            shapeRenderer.color = Color.WHITE
+        engine.getEntitiesFor(grappleFamily).forEach { grappleEntity ->
+            shapeRenderer.color = color.get(grappleEntity).color
             shapeRenderer.begin(Filled)
-            shapeRenderer.circle(position.get(grapple).x, position.get(grapple).y, 4.toFloat())
+            shapeRenderer.circle(position.get(grappleEntity).x, position.get(grappleEntity).y, radius.get(grappleEntity).radius)
             shapeRenderer.end()
         }
     }

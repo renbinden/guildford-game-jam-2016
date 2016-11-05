@@ -5,7 +5,7 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.ashley.systems.IteratingSystem
 import com.seventh_root.guildfordgamejam.component.*
 
-class PlayerSizeSystem: IteratingSystem(Family.all(PlayerComponent::class.java, PositionComponent::class.java).get()) {
+class PlayerSizeSystem: IteratingSystem(Family.all(PlayerComponent::class.java, PositionComponent::class.java, RadiusComponent::class.java).get()) {
     val grappleFamily: Family = Family.all(GrappleComponent::class.java, PositionComponent::class.java).get()
     override fun processEntity(entity: Entity, deltaTime: Float) {
         var shortestDistSq: Float? = null
@@ -24,7 +24,7 @@ class PlayerSizeSystem: IteratingSystem(Family.all(PlayerComponent::class.java, 
             }
         }
         if (shortestDistSq != null) {
-            player.get(entity).radius = Math.abs(32F - Math.sqrt(shortestDistSq.toDouble()).toFloat())
+            radius.get(entity).radius = Math.abs(32F - Math.sqrt(shortestDistSq.toDouble()).toFloat())
         }
     }
 }
