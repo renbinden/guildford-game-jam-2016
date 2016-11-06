@@ -8,7 +8,7 @@ import com.seventh_root.guildfordgamejam.GuildfordGameJam
 import com.seventh_root.guildfordgamejam.component.*
 import java.util.*
 
-class PlayerSoundSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(PlayerComponent::class.java, ColorComponent::class.java, PositionComponent::class.java, VelocityComponent::class.java).get()) {
+class PlayerSoundSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(PlayerComponent::class.java, ColorComponent::class.java, CollectedColorsComponent::class.java, PositionComponent::class.java, VelocityComponent::class.java).get()) {
     override fun processEntity(entity: Entity, deltaTime: Float) {
         if (player.get(entity).orbiting) {
             if (velocity.get(entity).x == 0F && velocity.get(entity).y == 0F) {

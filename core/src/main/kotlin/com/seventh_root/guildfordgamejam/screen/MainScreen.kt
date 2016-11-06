@@ -6,6 +6,7 @@ import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.audio.Sound
+import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
@@ -106,7 +107,11 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
         shapeRenderer.line(startX, startY, x2.toFloat(), y2.toFloat())
         shapeRenderer.end()
         engine.getEntitiesFor(grappleFamily).forEach { grappleEntity ->
-            shapeRenderer.color = color.get(grappleEntity).color
+            if (collectedColors.get(playerEntity).colors.contains(color.get(grappleEntity).color)) {
+                shapeRenderer.color = Color.WHITE
+            } else {
+                shapeRenderer.color = color.get(grappleEntity).color
+            }
             shapeRenderer.begin(Filled)
             shapeRenderer.circle(position.get(grappleEntity).x, position.get(grappleEntity).y, radius.get(grappleEntity).radius)
             shapeRenderer.end()
