@@ -13,6 +13,8 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.seventh_root.guildfordgamejam.GuildfordGameJam
 import com.seventh_root.guildfordgamejam.component.*
 import com.seventh_root.guildfordgamejam.level.loadLevel
+import com.seventh_root.guildfordgamejam.system.GravitySystem
+import com.seventh_root.guildfordgamejam.system.MovementSystem
 
 class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
 
@@ -27,17 +29,21 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
     val prevTexture = Texture(Gdx.files.internal("btn_left.png"))
     val nextTexture = Texture(Gdx.files.internal("btn_right.png"))
     val textureFamily: Family = Family.all(TextureComponent::class.java, PositionComponent::class.java).get()
-    val levelButtonFamily: Family = Family.all(LevelComponent::class.java, TextureComponent::class.java, PositionComponent::class.java).get()
+    val levelButtonFamily: Family = Family.all(LevelComponent::class.java, TextureComponent::class.java, PositionComponent::class.java, VelocityComponent::class.java, GravityComponent::class.java).get()
     val prevButtonFamily: Family = Family.all(PreviousButtonComponent::class.java, TextureComponent::class.java, PositionComponent::class.java).get()
     val nextButtonFamily: Family = Family.all(NextButtonComponent::class.java, TextureComponent::class.java, PositionComponent::class.java).get()
 
     init {
+        engine.addSystem(MovementSystem())
+        engine.addSystem(GravitySystem())
         var x = (Gdx.graphics.width - buttonTexture.width) / 2F
         for (level in levels) {
             val levelButton = Entity()
             levelButton.add(TextureComponent(buttonTexture))
             levelButton.add(LevelComponent(level))
             levelButton.add(PositionComponent(x, (Gdx.graphics.height - buttonTexture.height) / 2F))
+            levelButton.add(VelocityComponent(0F, 0F))
+            levelButton.add(GravityComponent(x, (Gdx.graphics.height - buttonTexture.height) / 2F, 16F, 0.5F))
             engine.addEntity(levelButton)
             x += 256
         }
@@ -77,7 +83,7 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
                         }
                         .firstOrNull()
                 if (prevButton != null) {
-                    engine.getEntitiesFor(levelButtonFamily).forEach { entity -> position.get(entity).x -= 256 }
+                    engine.getEntitiesFor(levelButtonFamily).forEach { entity -> gravity.get(entity).targetX += 256 }
                 }
                 val nextButton = engine.getEntitiesFor(nextButtonFamily)
                         .filter { entity ->
@@ -88,7 +94,7 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
                         }
                         .firstOrNull()
                 if (nextButton != null) {
-                    engine.getEntitiesFor(levelButtonFamily).forEach { entity -> position.get(entity).x += 256 }
+                    engine.getEntitiesFor(levelButtonFamily).forEach { entity -> gravity.get(entity).targetX -= 256 }
                 }
                 return true
             }

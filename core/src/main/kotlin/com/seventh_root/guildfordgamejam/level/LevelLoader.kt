@@ -47,7 +47,7 @@ fun createPlayer(x: Float, y: Float): Entity {
     player.add(PositionComponent(x, y))
     player.add(VelocityComponent(0.toFloat(), 0.toFloat()))
     player.add(FrictionComponent(0.2F))
-    player.add(GravityComponent(x, y, 0.5F))
+    player.add(GravityComponent(x, y, 4F, 0.5F))
     player.add(ColorComponent(Color.WHITE))
     player.add(RadiusComponent(8F))
     player.add(PlayerComponent())

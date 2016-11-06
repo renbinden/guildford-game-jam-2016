@@ -12,7 +12,7 @@ class GravitySystem: IteratingSystem(Family.all(VelocityComponent::class.java, G
         val yDist = Math.abs(position.get(entity).y - gravity.get(entity).targetY)
         val xBias = xDist / (xDist + yDist)
         val yBias = yDist / (xDist + yDist)
-        if (Math.abs(position.get(entity).x - gravity.get(entity).targetX) > 4F || Math.abs(position.get(entity).y - gravity.get(entity).targetY) > 4F) {
+        if (Math.abs(position.get(entity).x - gravity.get(entity).targetX) > gravity.get(entity).targetRadius || Math.abs(position.get(entity).y - gravity.get(entity).targetY) > gravity.get(entity).targetRadius) {
             if (position.get(entity).x > gravity.get(entity).targetX) {
                 velocity.get(entity).x -= xBias * gravity.get(entity).amount
             } else if (position.get(entity).x < gravity.get(entity).targetX) {
