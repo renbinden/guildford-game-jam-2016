@@ -28,9 +28,15 @@ fun loadLevel(file: FileHandle): Level {
                         )
                 ))
             }
+            "Finish" -> {
+                entities.add(createFinish(
+                        jsonEntity.get("x").asFloat(),
+                        jsonEntity.get("y").asFloat()
+                ))
+            }
         }
     }
-    return Level(name, entities)
+    return Level(file, name, entities)
 }
 
 fun createGrapple(x: Float, y: Float, color: Color): Entity {
@@ -50,6 +56,16 @@ fun createPlayer(x: Float, y: Float): Entity {
     player.add(GravityComponent(x, y, 4F, 0.5F))
     player.add(ColorComponent(Color.WHITE))
     player.add(RadiusComponent(8F))
+    player.add(CollectedColorsComponent(mutableListOf<Color>()))
     player.add(PlayerComponent())
     return player
+}
+
+fun createFinish(x: Float, y: Float): Entity {
+    val finish = Entity()
+    finish.add(PositionComponent(x, y))
+    finish.add(ColorComponent(Color.WHITE))
+    finish.add(RadiusComponent(32F))
+    finish.add(FinishComponent())
+    return finish
 }

@@ -11,16 +11,19 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line
 import com.badlogic.gdx.math.Vector3
+import com.seventh_root.guildfordgamejam.GuildfordGameJam
 import com.seventh_root.guildfordgamejam.component.*
 import com.seventh_root.guildfordgamejam.level.Level
 import com.seventh_root.guildfordgamejam.system.*
 
-class MainScreen: ScreenAdapter() {
+class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
 
     val engine = Engine()
     val shapeRenderer = ShapeRenderer()
     val playerFamily: Family = Family.all(PlayerComponent::class.java).get()
     val grappleFamily: Family = Family.all(GrappleComponent::class.java).get()
+    val finishFamily: Family = Family.all(FinishComponent::class.java).get()
+    val finishEffectFamily: Family = Family.all(FinishEffectComponent::class.java).get()
     val camera = OrthographicCamera()
 
     init {
@@ -31,6 +34,9 @@ class MainScreen: ScreenAdapter() {
         engine.addSystem(PullSystem())
         engine.addSystem(PlayerSizeSystem())
         engine.addSystem(PlayerColorSystem())
+        engine.addSystem(FinishSystem(game))
+        engine.addSystem(RadiusScalingSystem())
+        engine.addSystem(ColorCollectionSystem())
     }
 
     override fun show() {
@@ -92,6 +98,18 @@ class MainScreen: ScreenAdapter() {
             shapeRenderer.color = color.get(grappleEntity).color
             shapeRenderer.begin(Filled)
             shapeRenderer.circle(position.get(grappleEntity).x, position.get(grappleEntity).y, radius.get(grappleEntity).radius)
+            shapeRenderer.end()
+        }
+        engine.getEntitiesFor(finishFamily).forEach { finishEntity ->
+            shapeRenderer.color = color.get(finishEntity).color
+            shapeRenderer.begin(Line)
+            shapeRenderer.circle(position.get(finishEntity).x, position.get(finishEntity).y, radius.get(finishEntity).radius)
+            shapeRenderer.end()
+        }
+        engine.getEntitiesFor(finishEffectFamily).forEach { finishEffectEntity ->
+            shapeRenderer.color = color.get(finishEffectEntity).color
+            shapeRenderer.begin(Line)
+            shapeRenderer.circle(position.get(finishEffectEntity).x, position.get(finishEffectEntity).y, radius.get(finishEffectEntity).radius)
             shapeRenderer.end()
         }
     }

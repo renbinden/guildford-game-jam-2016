@@ -11,7 +11,7 @@ class GuildfordGameJam: Game() {
 
     override fun create() {
         menuScreen = MenuScreen(this)
-        mainScreen = MainScreen()
+        mainScreen = MainScreen(this)
         setScreen(menuScreen)
     }
 

@@ -12,3 +12,6 @@ val color: ComponentMapper<ColorComponent> = ComponentMapper.getFor(ColorCompone
 val radius: ComponentMapper<RadiusComponent> = ComponentMapper.getFor(RadiusComponent::class.java)
 val texture: ComponentMapper<TextureComponent> = ComponentMapper.getFor(TextureComponent::class.java)
 val level: ComponentMapper<LevelComponent> = ComponentMapper.getFor(LevelComponent::class.java)
+val collectedColors: ComponentMapper<CollectedColorsComponent> = ComponentMapper.getFor(CollectedColorsComponent::class.java)
+val radiusScaling: ComponentMapper<RadiusScalingComponent> = ComponentMapper.getFor(RadiusScalingComponent::class.java)
+val finish: ComponentMapper<FinishComponent> = ComponentMapper.getFor(FinishComponent::class.java)

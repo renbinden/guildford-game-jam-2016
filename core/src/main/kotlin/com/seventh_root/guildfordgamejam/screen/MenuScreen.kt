@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.seventh_root.guildfordgamejam.GuildfordGameJam
 import com.seventh_root.guildfordgamejam.component.*
+import com.seventh_root.guildfordgamejam.level.Level
 import com.seventh_root.guildfordgamejam.level.loadLevel
 import com.seventh_root.guildfordgamejam.system.GravitySystem
 import com.seventh_root.guildfordgamejam.system.MovementSystem
@@ -19,9 +20,10 @@ import com.seventh_root.guildfordgamejam.system.MovementSystem
 class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
 
     val font = BitmapFont(Gdx.files.internal("m5x7.fnt"))
-    val levels = listOf(
+    var levels = listOf(
             loadLevel(Gdx.files.internal("level1.json")),
-            loadLevel(Gdx.files.internal("louis_face.json"))
+            loadLevel(Gdx.files.internal("level2.json")),
+            loadLevel(Gdx.files.internal("lewis_face.json"))
     )
     val engine = Engine()
     val spriteBatch = SpriteBatch()
@@ -36,6 +38,10 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
     init {
         engine.addSystem(MovementSystem())
         engine.addSystem(GravitySystem())
+        createButtons()
+    }
+
+    fun createButtons() {
         var x = (Gdx.graphics.width - buttonTexture.width) / 2F
         for (level in levels) {
             val levelButton = Entity()
@@ -124,6 +130,16 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
         font.dispose()
         spriteBatch.dispose()
         buttonTexture.dispose()
+    }
+
+    fun reloadLevels() {
+        val levels: MutableList<Level> = mutableListOf()
+        for (level in this.levels) {
+            levels.add(loadLevel(level.file))
+        }
+        this.levels = levels
+        engine.removeAllEntities()
+        createButtons()
     }
 
 }
