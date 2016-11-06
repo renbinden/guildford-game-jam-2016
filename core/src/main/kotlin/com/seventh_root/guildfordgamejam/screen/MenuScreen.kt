@@ -23,15 +23,23 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
 
     val font = BitmapFont(Gdx.files.internal("m5x7.fnt"))
     var levels = listOf(
-            loadLevel(Gdx.files.internal("level1.json")),
-            loadLevel(Gdx.files.internal("level2.json")),
-            loadLevel(Gdx.files.internal("lewis_face.json"))
+            loadLevel(Gdx.files.internal("level_1.json")),
+            loadLevel(Gdx.files.internal("level_2.json")),
+            loadLevel(Gdx.files.internal("level_3.json")),
+            loadLevel(Gdx.files.internal("level_4.json")),
+            loadLevel(Gdx.files.internal("level_5.json")),
+            loadLevel(Gdx.files.internal("level_6.json")),
+            loadLevel(Gdx.files.internal("level_7.json")),
+            loadLevel(Gdx.files.internal("level_8.json"))
     )
     val engine = Engine()
     val spriteBatch = SpriteBatch()
-    val buttonTexture = Texture(Gdx.files.internal("btn.png"))
-    val prevTexture = Texture(Gdx.files.internal("btn_left.png"))
-    val nextTexture = Texture(Gdx.files.internal("btn_right.png"))
+    val prevTexture = Texture(Gdx.files.internal("UI_Arrow_Left_Hover.png"))
+    val nextTexture = Texture(Gdx.files.internal("UI_Arrow_Hover.png"))
+    val prevHover = Texture(Gdx.files.internal("UI_Arrow_Left_Hover.png"))
+    val nextHover = Texture(Gdx.files.internal("UI_Arrow_Hover.png"))
+    val prevOn = Texture(Gdx.files.internal("UI_Arrow_Left_On.png"))
+    val nextOn = Texture(Gdx.files.internal("UI_Arrow_On.png"))
     val music: Music = Gdx.audio.newMusic(Gdx.files.internal("ambient_music.ogg"))
     val textureFamily: Family = Family.all(TextureComponent::class.java, PositionComponent::class.java).get()
     val levelButtonFamily: Family = Family.all(LevelComponent::class.java, TextureComponent::class.java, PositionComponent::class.java, VelocityComponent::class.java, GravityComponent::class.java).get()
@@ -48,26 +56,26 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
     }
 
     fun createButtons() {
-        var x = (Gdx.graphics.width - buttonTexture.width) / 2F
+        var x = (Gdx.graphics.width - 64) / 2F
         for (level in levels) {
             val levelButton = Entity()
-            levelButton.add(TextureComponent(buttonTexture))
+            levelButton.add(TextureComponent(level.buttonTexture))
             levelButton.add(LevelComponent(level))
-            levelButton.add(PositionComponent(x, (Gdx.graphics.height - buttonTexture.height) / 2F))
+            levelButton.add(PositionComponent(x, (Gdx.graphics.height - level.buttonTexture.height) / 2F))
             levelButton.add(VelocityComponent(0F, 0F))
-            levelButton.add(GravityComponent(x, (Gdx.graphics.height - buttonTexture.height) / 2F, 16F, 0.5F))
+            levelButton.add(GravityComponent(x, (Gdx.graphics.height - level.buttonTexture.height) / 2F, 16F, 0.5F))
             engine.addEntity(levelButton)
             x += 256
         }
         val prevButton = Entity()
         prevButton.add(PreviousButtonComponent())
         prevButton.add(TextureComponent(prevTexture))
-        prevButton.add(PositionComponent(((Gdx.graphics.width - buttonTexture.width) / 2F) - 96F, (Gdx.graphics.height - buttonTexture.height) / 2F))
+        prevButton.add(PositionComponent(((Gdx.graphics.width - 64) / 2F) - 96F, (Gdx.graphics.height - 64) / 2F))
         engine.addEntity(prevButton)
         val nextButton = Entity()
         nextButton.add(NextButtonComponent())
         nextButton.add(TextureComponent(nextTexture))
-        nextButton.add(PositionComponent(((Gdx.graphics.width - buttonTexture.width) / 2F) + 96F, (Gdx.graphics.height - buttonTexture.height) / 2F))
+        nextButton.add(PositionComponent(((Gdx.graphics.width - 64) / 2F) + 96F, (Gdx.graphics.height - 64) / 2F))
         engine.addEntity(nextButton)
     }
 
@@ -146,16 +154,21 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
         music.stop()
         font.dispose()
         spriteBatch.dispose()
-        buttonTexture.dispose()
         prevTexture.dispose()
         nextTexture.dispose()
+        prevHover.dispose()
+        nextHover.dispose()
+        prevOn.dispose()
+        nextOn.dispose()
         music.dispose()
+        levels.forEach(Level::dispose)
     }
 
     fun reloadLevels() {
         val levels: MutableList<Level> = mutableListOf()
         for (level in this.levels) {
             levels.add(loadLevel(level.file))
+            level.dispose()
         }
         this.levels = levels
         engine.removeAllEntities()

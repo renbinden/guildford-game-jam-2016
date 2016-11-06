@@ -1,0 +1,48 @@
+{
+  "name": "Level 3",
+  "button": "3.png",
+  "entities": [
+    {
+      "type": "Player",
+      "x": 0,
+      "y": 0
+    },
+    {
+      "type": "Finish",
+      "x": 96,
+      "y": 96
+    },
+    {
+      "type": "Grapple",
+      "x": 0,
+      "y": 0,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 0,
+      "y": 96,
+      "red": 0.40392157,
+      "green": 0.44313726,
+      "blue": 0.039215688
+    },
+    {
+      "type": "Grapple",
+      "x": 96,
+      "y": 0,
+      "red": 0.43529412,
+      "green": 0.08235294,
+      "blue": 0.42352942
+    },
+    {
+      "type": "Grapple",
+      "x": 96,
+      "y": 96,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    }
+  ]
+}

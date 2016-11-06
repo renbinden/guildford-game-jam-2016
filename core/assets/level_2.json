@@ -1,5 +1,6 @@
 {
   "name": "Level 2",
+  "button": "2.png",
   "entities": [
     {
       "type": "Player",

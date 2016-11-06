@@ -1,0 +1,96 @@
+{
+  "name": "Level 4",
+  "button": "4.png",
+  "entities": [
+    {
+      "type": "Player",
+      "x": 0,
+      "y": 32
+    },
+    {
+      "type": "Finish",
+      "x": 192,
+      "y": 32
+    },
+    {
+      "type": "Grapple",
+      "x": 0,
+      "y": 32,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 0,
+      "y": 128,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 0,
+      "y": 224,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 96,
+      "y": 32,
+      "red": 0.09411765,
+      "green": 0.25882354,
+      "blue": 0.23529412
+    },
+    {
+      "type": "Grapple",
+      "x": 96,
+      "y": 128,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 96,
+      "y": 224,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 160,
+      "y": 128,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 192,
+      "y": 32,
+      "red": 1.0,
+      "green": 1.0,
+      "blue": 1.0
+    },
+    {
+      "type": "Grapple",
+      "x": 192,
+      "y": 224,
+      "red": 0.42352942,
+      "green": 0.44705883,
+      "blue": 0.03529412
+    },
+    {
+      "type": "Grapple",
+      "x": 224,
+      "y": 128,
+      "red": 0.0,
+      "green": 0.33333334,
+      "blue": 0.15294118
+    }
+  ]
+}

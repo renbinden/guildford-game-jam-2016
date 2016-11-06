@@ -1,8 +1,10 @@
 package com.seventh_root.guildfordgamejam.level
 
 import com.badlogic.ashley.core.Entity
+import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.files.FileHandle
 import com.badlogic.gdx.graphics.Color
+import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.utils.JsonReader
 import com.seventh_root.guildfordgamejam.component.*
 
@@ -36,7 +38,7 @@ fun loadLevel(file: FileHandle): Level {
             }
         }
     }
-    return Level(file, name, entities)
+    return Level(file, Texture(Gdx.files.internal(jsonLevel.get("button").asString())), name, entities)
 }
 
 fun createGrapple(x: Float, y: Float, color: Color): Entity {
