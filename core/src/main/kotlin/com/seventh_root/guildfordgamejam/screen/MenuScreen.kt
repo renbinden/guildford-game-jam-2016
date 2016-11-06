@@ -6,6 +6,7 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.ScreenAdapter
+import com.badlogic.gdx.audio.Music
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.Texture
 import com.badlogic.gdx.graphics.g2d.BitmapFont
@@ -30,6 +31,7 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
     val buttonTexture = Texture(Gdx.files.internal("btn.png"))
     val prevTexture = Texture(Gdx.files.internal("btn_left.png"))
     val nextTexture = Texture(Gdx.files.internal("btn_right.png"))
+    val music: Music = Gdx.audio.newMusic(Gdx.files.internal("ambient_music.ogg"))
     val textureFamily: Family = Family.all(TextureComponent::class.java, PositionComponent::class.java).get()
     val levelButtonFamily: Family = Family.all(LevelComponent::class.java, TextureComponent::class.java, PositionComponent::class.java, VelocityComponent::class.java, GravityComponent::class.java).get()
     val prevButtonFamily: Family = Family.all(PreviousButtonComponent::class.java, TextureComponent::class.java, PositionComponent::class.java).get()
@@ -39,6 +41,8 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
         engine.addSystem(MovementSystem())
         engine.addSystem(GravitySystem())
         createButtons()
+        music.isLooping = true
+        music.play()
     }
 
     fun createButtons() {
@@ -127,9 +131,13 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
     }
 
     override fun dispose() {
+        music.stop()
         font.dispose()
         spriteBatch.dispose()
         buttonTexture.dispose()
+        prevTexture.dispose()
+        nextTexture.dispose()
+        music.dispose()
     }
 
     fun reloadLevels() {

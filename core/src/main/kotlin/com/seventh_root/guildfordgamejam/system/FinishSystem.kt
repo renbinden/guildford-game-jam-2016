@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.utils.Timer
 import com.seventh_root.guildfordgamejam.GuildfordGameJam
 import com.seventh_root.guildfordgamejam.component.*
+import java.util.*
 
 class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(PlayerComponent::class.java, VelocityComponent::class.java, GravityComponent::class.java, PositionComponent::class.java, CollectedColorsComponent::class.java).get()) {
     val grappleFamily: Family = Family.all(GrappleComponent::class.java, ColorComponent::class.java).get()
@@ -32,6 +33,7 @@ class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(Playe
 
     fun finish(finish: Entity) {
         var delay = 0F
+        val random = Random()
         for (grapple in engine.getEntitiesFor(grappleFamily).filter { grapple -> color.get(grapple).color != Color.WHITE }) {
             Timer.schedule(object: Timer.Task() {
                 override fun run() {
@@ -42,6 +44,12 @@ class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(Playe
                     ef.add(FinishEffectComponent())
                     ef.add(ColorComponent(color.get(grapple).color))
                     engine.addEntity(ef)
+                    when (random.nextInt(4)) {
+                        0 -> game.mainScreen.pluck1Sound.play()
+                        1 -> game.mainScreen.pluck2Sound.play()
+                        2 -> game.mainScreen.pluck3Sound.play()
+                        3 -> game.mainScreen.pluck4Sound.play()
+                    }
                 }
             }, delay)
             delay += 0.2F

@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Family
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.InputAdapter
 import com.badlogic.gdx.ScreenAdapter
+import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
@@ -25,6 +26,12 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
     val finishFamily: Family = Family.all(FinishComponent::class.java).get()
     val finishEffectFamily: Family = Family.all(FinishEffectComponent::class.java).get()
     val camera = OrthographicCamera()
+    val orbitSound: Sound = Gdx.audio.newSound(Gdx.files.internal("orbit.ogg"))
+    val pluck1Sound: Sound = Gdx.audio.newSound(Gdx.files.internal("pluck1.ogg"))
+    val pluck2Sound: Sound = Gdx.audio.newSound(Gdx.files.internal("pluck2.ogg"))
+    val pluck3Sound: Sound = Gdx.audio.newSound(Gdx.files.internal("pluck3.ogg"))
+    val pluck4Sound: Sound = Gdx.audio.newSound(Gdx.files.internal("pluck4.ogg"))
+    val popSound: Sound = Gdx.audio.newSound(Gdx.files.internal("pop.ogg"))
 
     init {
         camera.setToOrtho(true)
@@ -37,6 +44,7 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
         engine.addSystem(FinishSystem(game))
         engine.addSystem(RadiusScalingSystem())
         engine.addSystem(ColorCollectionSystem())
+        engine.addSystem(PlayerSoundSystem(game))
     }
 
     override fun show() {
@@ -56,6 +64,7 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
                         val o2 = Math.sin(theta) * h2
                         velocity.get(player).x = a2.toFloat()
                         velocity.get(player).y = o2.toFloat()
+                        orbitSound.play()
                     }
                 }
                 return true
@@ -116,6 +125,12 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
 
     override fun dispose() {
         shapeRenderer.dispose()
+        orbitSound.dispose()
+        pluck1Sound.dispose()
+        pluck2Sound.dispose()
+        pluck3Sound.dispose()
+        pluck4Sound.dispose()
+        popSound.dispose()
     }
 
     fun displayLevel(level: Level) {
