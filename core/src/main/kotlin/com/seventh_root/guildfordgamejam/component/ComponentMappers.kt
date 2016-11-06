@@ -15,3 +15,4 @@ val level: ComponentMapper<LevelComponent> = ComponentMapper.getFor(LevelCompone
 val collectedColors: ComponentMapper<CollectedColorsComponent> = ComponentMapper.getFor(CollectedColorsComponent::class.java)
 val radiusScaling: ComponentMapper<RadiusScalingComponent> = ComponentMapper.getFor(RadiusScalingComponent::class.java)
 val finish: ComponentMapper<FinishComponent> = ComponentMapper.getFor(FinishComponent::class.java)
+val timer: ComponentMapper<TimerComponent> = ComponentMapper.getFor(TimerComponent::class.java)

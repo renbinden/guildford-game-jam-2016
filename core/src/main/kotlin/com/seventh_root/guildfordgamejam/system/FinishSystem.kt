@@ -23,6 +23,7 @@ class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(Playe
                     }
                     colorsNotCollected.removeAll(collectedColors.get(entity).colors)
                     if (colorsNotCollected.isEmpty()) {
+                        game.highScoreEntryScreen.time = timer.get(entity).time
                         finish(finishEntity)
                         finish.get(finishEntity).finished = true
                     }
@@ -54,11 +55,16 @@ class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(Playe
             }, delay)
             delay += 0.2F
         }
-        delay += 1F
+        Timer.schedule(object: Timer.Task() {
+            override fun run() {
+                game.mainScreen.levelCompletePlucks.play()
+            }
+        }, delay)
+        delay += 2F
         Timer.schedule(object: Timer.Task() {
             override fun run() {
                 game.menuScreen.reloadLevels()
-                game.screen = game.menuScreen
+                game.screen = game.highScoreEntryScreen
             }
         }, delay)
     }

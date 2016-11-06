@@ -15,6 +15,7 @@ import com.seventh_root.guildfordgamejam.GuildfordGameJam
 import com.seventh_root.guildfordgamejam.component.*
 import com.seventh_root.guildfordgamejam.level.Level
 import com.seventh_root.guildfordgamejam.level.loadLevel
+import com.seventh_root.guildfordgamejam.score.HighScores
 import com.seventh_root.guildfordgamejam.system.GravitySystem
 import com.seventh_root.guildfordgamejam.system.MovementSystem
 
@@ -36,6 +37,7 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
     val levelButtonFamily: Family = Family.all(LevelComponent::class.java, TextureComponent::class.java, PositionComponent::class.java, VelocityComponent::class.java, GravityComponent::class.java).get()
     val prevButtonFamily: Family = Family.all(PreviousButtonComponent::class.java, TextureComponent::class.java, PositionComponent::class.java).get()
     val nextButtonFamily: Family = Family.all(NextButtonComponent::class.java, TextureComponent::class.java, PositionComponent::class.java).get()
+    val highScores = HighScores(mutableMapOf())
 
     init {
         engine.addSystem(MovementSystem())
@@ -81,6 +83,7 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
                         }
                         .firstOrNull()
                 if (levelButton != null) {
+                    game.highScoreEntryScreen.level = level.get(levelButton).level.name
                     game.mainScreen.displayLevel(level.get(levelButton).level)
                     game.screen = game.mainScreen
                 }
@@ -126,6 +129,15 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
         }
         engine.getEntitiesFor(levelButtonFamily).forEach { entity ->
             font.draw(spriteBatch, level.get(entity).level.name, position.get(entity).x, position.get(entity).y + 96)
+            var y = position.get(entity).y + 192F
+            var pos = 1
+            for (highScore in highScores.getHighScores(level.get(entity).level.name)) {
+                if (highScore != null) {
+                    font.draw(spriteBatch, "$pos. ${highScore.name} - ${highScore.time}", position.get(entity).x, y)
+                    y -= 32F
+                    pos++
+                }
+            }
         }
         spriteBatch.end()
     }

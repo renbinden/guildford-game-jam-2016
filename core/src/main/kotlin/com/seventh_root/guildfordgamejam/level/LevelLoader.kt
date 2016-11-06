@@ -58,6 +58,7 @@ fun createPlayer(x: Float, y: Float): Entity {
     player.add(RadiusComponent(8F))
     player.add(CollectedColorsComponent(mutableListOf<Color>()))
     player.add(PlayerComponent(false))
+    player.add(TimerComponent(0F))
     return player
 }
 

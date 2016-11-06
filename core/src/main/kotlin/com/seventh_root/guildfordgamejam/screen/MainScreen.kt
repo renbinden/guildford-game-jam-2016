@@ -32,6 +32,7 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
     val pluck3Sound: Sound = Gdx.audio.newSound(Gdx.files.internal("pluck3.ogg"))
     val pluck4Sound: Sound = Gdx.audio.newSound(Gdx.files.internal("pluck4.ogg"))
     val popSound: Sound = Gdx.audio.newSound(Gdx.files.internal("pop.ogg"))
+    val levelCompletePlucks: Sound = Gdx.audio.newSound(Gdx.files.internal("level_complete_plucks.ogg"))
 
     init {
         camera.setToOrtho(true)
@@ -45,6 +46,7 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
         engine.addSystem(RadiusScalingSystem())
         engine.addSystem(ColorCollectionSystem())
         engine.addSystem(PlayerSoundSystem(game))
+        engine.addSystem(TimerSystem())
     }
 
     override fun show() {
@@ -131,6 +133,7 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
         pluck3Sound.dispose()
         pluck4Sound.dispose()
         popSound.dispose()
+        levelCompletePlucks.dispose()
     }
 
     fun displayLevel(level: Level) {
