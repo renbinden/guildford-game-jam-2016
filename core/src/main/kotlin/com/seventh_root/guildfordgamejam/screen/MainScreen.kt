@@ -9,6 +9,8 @@ import com.badlogic.gdx.audio.Sound
 import com.badlogic.gdx.graphics.Color
 import com.badlogic.gdx.graphics.GL20
 import com.badlogic.gdx.graphics.OrthographicCamera
+import com.badlogic.gdx.graphics.g2d.BitmapFont
+import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Filled
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType.Line
@@ -34,6 +36,8 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
     val pluck4Sound: Sound = Gdx.audio.newSound(Gdx.files.internal("pluck4.ogg"))
     val popSound: Sound = Gdx.audio.newSound(Gdx.files.internal("pop.ogg"))
     val levelCompletePlucks: Sound = Gdx.audio.newSound(Gdx.files.internal("level_complete_plucks.ogg"))
+    val font = BitmapFont(Gdx.files.internal("m5x7.fnt"))
+    val spriteBatch = SpriteBatch()
 
     init {
         camera.setToOrtho(true)
@@ -128,6 +132,10 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
             shapeRenderer.circle(position.get(finishEffectEntity).x, position.get(finishEffectEntity).y, radius.get(finishEffectEntity).radius)
             shapeRenderer.end()
         }
+        spriteBatch.begin()
+        font.draw(spriteBatch, "${collectedColors.get(playerEntity).colors.size}/${engine.getEntitiesFor(grappleFamily).filter { grapple -> color.get(grapple).color != Color.WHITE }.size}", 16F, 32F)
+        font.draw(spriteBatch, String.format("%.2f", timer.get(playerEntity).time), 16F, 64F)
+        spriteBatch.end()
     }
 
     override fun dispose() {
@@ -139,6 +147,8 @@ class MainScreen(game: GuildfordGameJam): ScreenAdapter() {
         pluck4Sound.dispose()
         popSound.dispose()
         levelCompletePlucks.dispose()
+        font.dispose()
+        spriteBatch.dispose()
     }
 
     fun displayLevel(level: Level) {

@@ -133,7 +133,7 @@ class MenuScreen(val game: GuildfordGameJam): ScreenAdapter() {
             var pos = 1
             for (highScore in highScores.getHighScores(level.get(entity).level.name)) {
                 if (highScore != null) {
-                    font.draw(spriteBatch, "$pos. ${highScore.name} - ${highScore.time}", position.get(entity).x, y)
+                    font.draw(spriteBatch, "$pos. ${highScore.name} - ${String.format("%.2f", highScore.time)}", position.get(entity).x, y)
                     y -= 32F
                     pos++
                 }
