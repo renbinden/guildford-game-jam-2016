@@ -8,7 +8,7 @@ import com.badlogic.gdx.utils.Timer
 import com.seventh_root.guildfordgamejam.GuildfordGameJam
 import com.seventh_root.guildfordgamejam.component.*
 
-class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(PlayerComponent::class.java/*, VelocityComponent::class.java, GravityComponent::class.java, PositionComponent::class.java, CollectedColorsComponent::class.java*/).get()) {
+class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(PlayerComponent::class.java, VelocityComponent::class.java, GravityComponent::class.java, PositionComponent::class.java, CollectedColorsComponent::class.java).get()) {
     val grappleFamily: Family = Family.all(GrappleComponent::class.java, ColorComponent::class.java).get()
     val finishFamily: Family = Family.all(FinishComponent::class.java, PositionComponent::class.java).get()
     override fun processEntity(entity: Entity, deltaTime: Float) {
