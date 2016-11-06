@@ -12,6 +12,7 @@ import java.util.*
 class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(PlayerComponent::class.java, VelocityComponent::class.java, GravityComponent::class.java, PositionComponent::class.java, CollectedColorsComponent::class.java).get()) {
     val grappleFamily: Family = Family.all(GrappleComponent::class.java, ColorComponent::class.java).get()
     val finishFamily: Family = Family.all(FinishComponent::class.java, PositionComponent::class.java).get()
+    var finishEffectCounter: Float = 5F
     override fun processEntity(entity: Entity, deltaTime: Float) {
         val finishEntity = engine.getEntitiesFor(finishFamily).firstOrNull()
         if (finishEntity != null) {
@@ -27,12 +28,35 @@ class FinishSystem(val game: GuildfordGameJam): IteratingSystem(Family.all(Playe
                         finish(finishEntity)
                         finish.get(finishEntity).finished = true
                     }
+                } else {
+                    val colorsNotCollected = mutableListOf<Color>()
+                    for (grapple in engine.getEntitiesFor(grappleFamily).filter { grapple -> color.get(grapple).color != Color.WHITE }) {
+                        colorsNotCollected.add(color.get(grapple).color)
+                    }
+                    colorsNotCollected.removeAll(collectedColors.get(entity).colors)
+                    if (colorsNotCollected.isEmpty()) {
+                        if (finishEffectCounter > 5F) {
+                            finishEffectCounter = 5F
+                        }
+                        finishEffectCounter -= deltaTime
+                        if (finishEffectCounter <= 0) {
+                            val ef = Entity()
+                            ef.add(RadiusComponent(1F))
+                            ef.add(PositionComponent(position.get(finishEntity).x, position.get(finishEntity).y))
+                            ef.add(RadiusScalingComponent(300F))
+                            ef.add(FinishEffectComponent())
+                            ef.add(ColorComponent(Color.WHITE))
+                            engine.addEntity(ef)
+                            finishEffectCounter = 5F
+                        }
+                    }
                 }
             }
         }
     }
 
     fun finish(finish: Entity) {
+        finishEffectCounter = Float.MAX_VALUE
         var delay = 0F
         val random = Random()
         for (grapple in engine.getEntitiesFor(grappleFamily).filter { grapple -> color.get(grapple).color != Color.WHITE }) {
