@@ -1,6 +1,6 @@
 apply plugin: "kotlin"
 
-project.ext.mainClassName = "com.seventh_root.guildfordgamejam.desktop.DesktopLauncher"
+project.ext.mainClassName = "com.seventh_root.guildfordgamejam.desktop.DesktopLauncherKt"
 project.ext.assetsDir = new File("../core/assets");
 
 task run(dependsOn: classes, type: JavaExec) {
